@@ -49,7 +49,7 @@ st.title("Metal Releases 2025")
 df = load_data()
 
 # Search bar
-search_term = st.text_input("Buscar álbumes (por artista, género, tipo, etc.)")
+search_term = st.text_input("Search for records (by artist, genre, type, etc.)")
 
 # Filter data dynamically
 filtered_df = filter_data(df, search_term)
@@ -59,4 +59,4 @@ for _, row in filtered_df.iterrows():
     st.markdown(create_album_card(row), unsafe_allow_html=True)
 
 # Add results counter
-st.write(f"Mostrando {len(filtered_df)} de {len(df)} álbumes")
+st.write(f"Showing {len(filtered_df)} of {len(df)} records")
