@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import base64
+import random
 
 # Function to apply CSS style
 def local_css(file_name):
@@ -19,8 +19,8 @@ def filter_data(df, search_term):
 
 # Function to create album cards
 def create_album_card(row):
-    spotify_link = f'<a href="{row["Spotify"]}" target="_blank">Spotify</a>' if 'Error' not in row['Spotify'] else ''
-    bandcamp_link = f'<a href="{row["Bandcamp"]}" target="_blank">Bandcamp</a>' if 'Error' not in row['Bandcamp'] else ''
+    spotify_link = f'<a href="{row["Spotify"]}" target="_blank">Spotify</a>' if 'Error.' not in row['Spotify'] else ''
+    bandcamp_link = f'<a href="{row["Bandcamp"]}" target="_blank">Bandcamp</a>' if 'Error.' not in row['Bandcamp'] else ''
     links = ' | '.join(filter(None, [spotify_link, bandcamp_link]))
 
     card = f"""
@@ -36,6 +36,10 @@ def create_album_card(row):
     """
     return card
 
+# Function to get a random record
+def get_random_record(df):
+    return df.sample(n=1).iloc[0]
+
 # Page configuration
 st.set_page_config(page_title="Metal Releases 2025", layout="wide")
 
@@ -48,8 +52,13 @@ st.title("Metal Releases 2025")
 # Load data
 df = load_data()
 
+# Button to get a random album
+if st.button("Show Random Album"):
+    random_row = get_random_record(df)
+    st.markdown(create_album_card(random_row), unsafe_allow_html=True)
+
 # Search bar
-search_term = st.text_input("Search for records (by artist, genre, type, etc.)")
+search_term = st.text_input("Search for albums (by artist, genre, type, etc.)")
 
 # Filter data dynamically
 filtered_df = filter_data(df, search_term)
@@ -59,4 +68,4 @@ for _, row in filtered_df.iterrows():
     st.markdown(create_album_card(row), unsafe_allow_html=True)
 
 # Add results counter
-st.write(f"Showing {len(filtered_df)} of {len(df)} records")
+st.write(f"Showing {len(filtered_df)} of {len(df)} albums")
