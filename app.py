@@ -58,7 +58,7 @@ if st.button("Show Random Album"):
     st.markdown(create_album_card(random_row), unsafe_allow_html=True)
 
 # Search bar
-search_term = st.text_input("Search for albums (by artist, genre, type, etc.)")
+search_term = st.text_input("Search for albums (by artist, genre, type, record name, etc.)")
 
 # Filter data dynamically
 filtered_df = filter_data(df, search_term)
@@ -68,4 +68,4 @@ for _, row in filtered_df.iterrows():
     st.markdown(create_album_card(row), unsafe_allow_html=True)
 
 # Add results counter
-st.write(f"Showing {len(filtered_df)} of {len(df)} albums")
+st.write(f"Showing {len(filtered_df)} of {len(df)} records")
